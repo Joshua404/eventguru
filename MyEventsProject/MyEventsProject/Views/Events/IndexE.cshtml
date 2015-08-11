@@ -1,0 +1,158 @@
+﻿@model MyEventsProject.Views.Events.IndexVM
+
+@{
+    ViewBag.Title = "Event Search";
+}
+
+<br />
+<br />
+@*@Html.AntiForgeryToken();*@
+@using (Html.BeginForm("Search", "Events", FormMethod.Get))
+{
+    <form class="navbar-form" role="search">
+        <div class="form-group" @*@Html.TextBox("id")*@>
+            <div class="container" id="eventsearchbar">
+                <div class="row clearfix">
+                    <div class="col-xs-12 column">
+                        <nav class="navbar navbar-default" id="navbarcolor" role="navigation">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myown-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+
+                                <a class="navbar-brand" id="eventsearchnavbar">Search-Criteria</a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="myown-example-navbar-collapse-1">
+                                <ul id="myspecialcenter" class="nav navbar-nav">
+                                    <li class="navys">
+                                        <div id="statecontainer">
+                                            @Html.DropDownListFor(m => m.Filter.StateId, Model.States, "Select-State")
+                                        </div>
+                                    </li>
+                                    <li class="navys">
+                                        <div id="citycontainer">
+                                            @Html.DropDownListFor(m => m.Filter.CityId, Model.Cities, "Select-City")
+                                        </div>
+                                    </li>
+                                    <li class="navys">
+                                        @Html.EnumDropDownListFor(m => m.Filter.Category, "Select-Category")
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+
+            @*<input type="text" placeholder="Keyword-Search" id="spe" class="form-control" />
+            <button type="submit" value="Search" class="mythy btn btn-default">Submit</button>*@
+
+
+            @Html.TextBoxFor(m => m.Filter.Search)<input type="submit" value="Search" />
+        </div>
+    </form>
+}
+@if (MyEventsProject.Services.ClaimsService.HasClaimCanEditProducts((System.Security.Claims.ClaimsPrincipal)User))
+{
+    <div>
+        @Html.ActionLink("Create New", "Create")
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            Event Name
+        </th>
+        <th>
+            Event Organizer
+        </th>
+        <th>
+            City
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            PictureURL
+        </th>
+        <th>
+            Details
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Events)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventOrganizer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <a href="@Url.Action("ImageDetails", new {id = item.Id})">
+                    <img src="@item.PictureURL" height="220" />
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            </td>
+            <td>
+                @if (MyEventsProject.Services.ClaimsService.HasClaimCanEditProducts((System.Security.Claims.ClaimsPrincipal)User))
+                {
+                    <div>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+
+        $("#Filter_StateId").on("change", function (e) {
+            debugger;
+            var selectedState = e.target.value;
+            $.getJSON("/api/location", { id: selectedState }).done(function (City) {
+                $("#Filter_CityId").html('<option>Select-City</option>');
+                //var city = e.target.value;
+                $.each(City, function (i, city) {
+                    $("#Filter_CityId").append('<option value="'+city.Id+'">' + city.Name + '</option>');
+                })
+            })
+        })
+    </script>
+
+}
+
+
+@*$.each(citys, function (i, city) {
+                            $("#city").append('<option value="'
+    + city.Value + '">
+        '
+        + city.Text + '
+    </option>');
+                        });*@

@@ -1,0 +1,119 @@
+﻿@model MyEventsProject.Views.Events.IndexVM
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Event</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewEvent.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewEvent.EventName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NewEvent.EventName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewEvent.EventOrganizer, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewEvent.EventOrganizer, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NewEvent.EventOrganizer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.NewEvent.City.StateId, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class ="control-label col-md-2" style="font-weight:600">State</p>
+            <div class="col-md-10">
+                <div id="statecontainer">
+                    @Html.DropDownListFor(m => m.NewEvent.City.StateId, Model.States, "Select-State")
+                </div>
+                @Html.ValidationMessageFor(model => model.NewEvent.City.StateId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.NewEvent.CityId, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <p class="control-label col-md-2" style="font-weight:600">City</p>
+            <div class="col-md-10">
+                <div id="citycontainer">
+                    @Html.DropDownListFor(m => m.NewEvent.CityId, Model.Cities, "Select-City")
+                </div>
+                @Html.ValidationMessageFor(model => model.NewEvent.CityId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewEvent.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="citycontainer">
+                    @Html.EnumDropDownListFor(m => m.NewEvent.Category, "Select-Category")
+                </div>
+                @Html.ValidationMessageFor(model => model.NewEvent.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewEvent.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewEvent.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NewEvent.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewEvent.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewEvent.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NewEvent.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewEvent.PictureURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NewEvent.PictureURL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NewEvent.PictureURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+        $("#NewEvent_City_StateId").on("change", function (e) {
+            debugger;
+            var selectedState = e.target.value;
+            $.getJSON("/api/location", { id: selectedState }).done(function (City) {
+                $("#NewEvent_CityId").html('<option>Select-City</option>');
+                //var city = e.target.value;
+                $.each(City, function (i, city) {
+                    $("#NewEvent_CityId").append('<option value="'+city.Id+'">' + city.Name + '</option>');
+                })
+            })
+        })
+</script>
+}

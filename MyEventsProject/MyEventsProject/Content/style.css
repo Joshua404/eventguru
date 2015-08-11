@@ -1,0 +1,103 @@
+﻿* {
+    
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.cm {
+    width:100%;
+
+}
+
+.navbar {
+    margin-bottom: 0px;
+
+}
+
+.mythy {
+    width: 74px;
+}
+
+/*li {
+    text-align: center;
+    float: none;
+
+}
+
+#myspecialcenter {
+    text-align: center;
+    float: none;*/
+
+}
+
+#spe {
+    width: 150px;
+
+}
+#carousel-264180 {
+    padding-left: 0px;
+    padding-right: 0px;
+
+}
+
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.navys {
+
+    padding-top: 5%;
+
+    padding-left: 10px;
+}
+
+/*.a,
+.navbar-brand*/
+#mainnavbar {
+    padding-top: 35%;
+}
+
+#eventsearchnavbar {
+    padding-top: 7%;
+}
+
+#eventsearchbar {
+    padding-left: 0px;
+    margin-top: -2%;
+}
+
+.navbar {
+    background-color:#f5f5f5;
+
+}
+
+#navbarcolor {
+    border-color: yellowgreen;
+
+}
+
+#cpics {
+    width: 100%;
+}
+
+#hpsentance {
+    font-size: 23pt;
+}
