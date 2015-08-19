@@ -55,8 +55,8 @@ namespace MyEventsProject.Services
             {
                 SResults = SResults.Where(s => s.EventName.Contains(filter.Search));
             }
-               
-                return SResults.ToList();
+            var results = SResults.ToList();
+                return results;
                 //== searchInput).ToList(); 
 
             //return _repo.Query<Event>().Where(x => x.EventName == searchInput).ToArray();
@@ -84,14 +84,16 @@ namespace MyEventsProject.Services
 
             //.Where(ApplicationUser == UserId);
 
-            var model = _repo.Query<ApplicationUser>().Where(u => u.Id == UserId).Include(u => u.UserEvents).FirstOrDefault();
+            var model = _repo.Query<ApplicationUser>().Include(c => c.UserEvents.Select(u => u.City)).Where(u => u.Id == UserId).Include(u => u.UserEvents).FirstOrDefault();
             return model;
 
         }
 
         public Event Find(int id)
         {
-            return _repo.Find<Event>(id);
+            return _repo.Query<Event>().Include(c => c.City).Include(s => s.City.State).Where(u => u.Id == id).FirstOrDefault();
+            
+            //Find<Event>(id);
         }
 
         public void Create(IPrincipal user, Event newEvent)
@@ -108,7 +110,7 @@ namespace MyEventsProject.Services
             original.EventName = event2.EventName;
             original.EventOrganizer = event2.EventOrganizer;
             //original.State = event2.State;
-            original.City = event2.City;
+            //original.City = event2.City;
             original.Category = event2.Category;
             original.Date = event2.Date;
             original.Description = event2.Description;

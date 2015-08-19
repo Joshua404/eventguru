@@ -133,7 +133,22 @@ namespace MyEventsProject.Controllers
         // GET: Events/Edit/5
         public ActionResult Edit(int id)
         {
+
+
+            //var vm = new IndexVM
+
+            //{
+            //    States = new SelectList(_locationService.GetStates(), "Id", "Name"),
+            //    Cities = new SelectList(new List<City>(), "Id", "Name"),
+
+            //    //event7 = _eventService.Find(id),
+
+                
+            //};
+
+            //var result = event2 + vm;
             var event2 = _eventService.Find(id);
+           
             return View(event2);
         }
 
@@ -144,7 +159,7 @@ namespace MyEventsProject.Controllers
             if (ModelState.IsValid)
             {
                 _eventService.Edit(contact);
-                return RedirectToAction("IndexE");
+                return RedirectToAction("ManageE");
             }
 
             return View();

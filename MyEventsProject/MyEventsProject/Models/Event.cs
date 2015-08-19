@@ -27,6 +27,8 @@ namespace MyEventsProject.Models
         public City City { get; set; }
         public int CityId { get; set; }
 
+        //public SL sld { get; set; }
+
         public Category Category { get; set; }
 
         public DateTime Date { get; set; }
@@ -39,6 +41,10 @@ namespace MyEventsProject.Models
         public string ApplicationUserId { get; set; }
 
         public ApplicationUser APUser { get; set; }
+
+        //public SelectList States { get; set; }
+
+        //public SelectList Cities { get; set; }
 
         //public MyEventsProject.Models.Filter Filter { get; set; }
 
